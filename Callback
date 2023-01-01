@@ -1,0 +1,111 @@
+console.log('Callback Example');
+//------------------------------CALLBACK-----------------------------------------------
+// node.js serise
+//https://www.youtube.com/watch?v=yREegq04TPY&list=PLL_QnA355DUif_kr7GaNgGUaUFR_Oqtfg&index=89
+
+// cancelIdleCallback - Will will provide first argumar if things failed< I will provide second argument
+// if things susceed
+const addCallCallback = (callback) => {
+  setTimeout(() => {
+    // callback('there is error', undefined);
+    callback(undefined, [20, 303, 29]);
+    // callback('Error', "Result"); // order of argumenr
+  }, 2000);
+};
+
+// ///error first callback, below is the promise
+addCallCallback((error, result) => {
+  if (error) {
+    return console.log(error);
+  }
+  console.log('result is : ', result);
+});
+
+// //------------------------------Promise----------------
+// // promise steps: (pending (2min)) --fullfiled or reject
+// // clear()
+// console.log('Callback Example');
+// // actuall not greating the Promise
+// // cann't mess it, as i promise function, we cannot call both or it only 1 is called
+// // and reject 2 times
+const doWorkPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    // resolve([10, 20, 30]);
+    reject('The is errord');
+  });
+});
+
+// //  like callback we dont need to add error login but we have got then,catch, finallly funcation to do it.
+doWorkPromise
+  .then((result) => {
+    console.log('The result si : ', result);
+    return result;
+  })
+  .then((result) => {
+    console.log('The result si : ', result + 200);
+  })
+  .catch((err) => {
+    console.log('Error found : ', err);
+  })
+  .finally(() => {
+    console.log('finaly');
+  });
+
+//Router.post('/changeOwnPass', passport.authenticate('jwt', { session: false }), changeOwnPassword);
+
+// async changeOwnPassword(req, res){
+//   try{
+//     const mType = await checkRole(req.query);
+//     ....
+//   }
+
+/// we do the updare whle calling mongoupdate for Promise
+// const checkRole = (query) => {
+//   return new Promise((resolve, reject) => {
+//     try {
+//       const role = query.role;
+//       // check for a valid model
+//       if (!check)
+//         return reject({
+//           name: 'Error',
+//           statusCode: 400,
+//           message: 'Invalid role',
+//         });
+//       resolve(check);
+//     } catch (error) {
+//       reject({ error });
+//     }
+//   });
+// };
+
+
+//async-await
+//------------------------------async-await----------------
+
+const add = (a, b) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (a < 0 || b < 0) {
+        return reject('number must be non negative');
+      }
+      resolve(a + b);
+    }, 2000);
+  });
+};
+
+// either all will execute or none with error
+// total time to run all with 6 sec
+const doWork = async () => {
+  const sum = await add(1, 99);
+  const sum2 = await add(sum, 50);
+  const sum3 = await add(sum2, -100); //change any to -ve, it will show the error, 
+  return sum3;
+};
+
+doWork()
+  .then((result) => {
+    console.log('result', result);
+  })
+  .catch((err) => {
+    console.log('Error', err);
+  });
