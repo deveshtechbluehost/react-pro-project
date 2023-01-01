@@ -78,7 +78,6 @@ doWorkPromise
 //   });
 // };
 
-
 //async-await
 //------------------------------async-await----------------
 
@@ -98,7 +97,7 @@ const add = (a, b) => {
 const doWork = async () => {
   const sum = await add(1, 99);
   const sum2 = await add(sum, 50);
-  const sum3 = await add(sum2, -100); //change any to -ve, it will show the error, 
+  const sum3 = await add(sum2, -100); //change any to -ve, it will show the error,
   return sum3;
 };
 
@@ -109,3 +108,24 @@ doWork()
   .catch((err) => {
     console.log('Error', err);
   });
+
+/// asyc await with simple fetch api
+const addIngredientHandler = () => {
+  fetch('./ingredients.json').then((response) => {
+    return response.json();
+  });
+};
+addIngredientHandler();
+
+// async-awit with promise channing
+const getFirstUserData = async () => {
+  //get user list
+  const res = await fetch('./users.json');
+  const users = await response.json();
+  const user = users[0];
+  const userResponse = await fetch(`./users.json/${user.name}`);
+  const userData = await userResponse.json();
+  return userData;
+};
+
+getFirstUserData();
